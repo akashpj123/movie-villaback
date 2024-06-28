@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: './.env' });
 import crypto from 'crypto';
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -20,8 +20,11 @@ const app = express();
 
 // Use middleware
 app.use(cors({
-  origin: true,
-  credentials: true
+  
+    origin: ["https://movie-villa-chi.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  
 }));
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,15 +42,30 @@ app.use('/bookings', bookings);
 // MongoDB connection
 
 // MongoDB connection
-const db = mongoose.connection;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/movies', {
+// MongoDB connection using Mongoose
+const uri = process.env.MONGODB_URI || "mongodb+srv://movie:akash123@movie-villa.xmqepbp.mongodb.net/?retryWrites=true&w=majority&appName=movie-villa";
+
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-});
+  serverSelectionTimeoutMS: 5000 // Timeout after 5s instead of waiting indefinitely
+})
+.then(() => console.log('MongoDB connected...'))
+.catch(err => console.log(err));
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
 
 
 
