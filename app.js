@@ -43,7 +43,7 @@ app.use('/bookings', bookings);
 
 // MongoDB connection
 // MongoDB connection using Mongoose
-const uri = process.env.MONGODB_URI || "mongodb+srv://movie:akash123@movie-villa.xmqepbp.mongodb.net/?retryWrites=true&w=majority&appName=movie-villa";
+const uri = process.env.MONGODB_URI || "mongodb+srv://movie:akash123@movie-villa.xmqepbp.mongodb.net/movie-villa?retryWrites=true&w=majority&appName=movie-villa";
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
