@@ -22,6 +22,7 @@ export const read = async (req, res) => {
   try {
     const movies = await Movie.find();
     res.status(200).json(movies);
+    console.log(movies);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
